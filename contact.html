@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Current Sight</title>
+  <meta name="description" content="Get in touch with Current Sight to discuss aquatic monitoring projects, partnerships, or how our tools might help your conservation work." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --fennel:   #b1b3a3;
+      --greenbay: #7e9384;
+      --mirage:   #4b968e;
+      --pagoda:   #15848d;
+      --artistic: #596b63;
+      --dracula:  #2b343a;
+      --page:     #f7f8f5;
+      --paper:    #ffffff;
+      --warm:     #f2f4f0;
+      --linen:    #e4e7e0;
+      --ink:      #1e2428;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--page); color: var(--dracula); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 72px;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--linen);
+    }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--dracula); text-decoration: none; letter-spacing: 0.02em; }
+    .logo span { color: var(--pagoda); font-style: italic; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--greenbay); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--pagoda); }
+    .nav-cta { background: var(--pagoda) !important; color: white !important; padding: 0.52rem 1.4rem; border-radius: 4px; }
+    .nav-cta:hover { background: var(--mirage) !important; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 10rem 3.5rem 5.5rem;
+      background: var(--paper);
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid var(--linen);
+    }
+    .page-hero::before { content:''; position:absolute;inset:0; background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(21,132,141,0.06) 0%, transparent 60%); }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mirage); display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .eyebrow::before { content:''; width:28px; height:1px; background:var(--pagoda); display:block; }
+    .page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5.5vw, 5rem); font-weight: 700; color: var(--dracula); letter-spacing: -0.03em; line-height: 1.05; max-width: 700px; margin-bottom: 1.2rem; }
+    .page-hero h1 em { font-style: italic; color: var(--pagoda); font-weight: 400; }
+    .page-hero p { color: var(--artistic); font-size: 1.05rem; max-width: 520px; font-weight: 300; line-height: 1.8; }
+
+    /* CONTACT BODY */
+    .contact-section { background: var(--page); padding: 6.5rem 3.5rem; }
+    .contact-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: start; }
+    @media(max-width:860px) { .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; } }
+
+    /* LEFT — contact info */
+    .contact-left h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 700; color: var(--dracula); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+    .contact-left h2 em { font-style: italic; color: var(--pagoda); font-weight: 400; }
+    .contact-left > p { color: var(--artistic); font-size: 0.97rem; font-weight: 300; line-height: 1.8; margin-bottom: 2rem; }
+
+    .email-card {
+      display: flex; align-items: center; gap: 1.2rem;
+      background: var(--paper); border: 1px solid var(--linen);
+      border-radius: 12px; padding: 1.3rem 1.6rem;
+      text-decoration: none; margin-bottom: 1rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .email-card:hover { border-color: rgba(21,132,141,0.35); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(21,132,141,0.08); }
+    .email-icon { width: 44px; height: 44px; background: rgba(21,132,141,0.09); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--pagoda); }
+    .email-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--greenbay); margin-bottom: 0.15rem; }
+    .email-addr { font-size: 0.97rem; font-weight: 600; color: var(--pagoda); }
+
+    .social-note { background: var(--warm); border: 1px solid var(--linen); border-radius: 10px; padding: 1.1rem 1.4rem; font-size: 0.86rem; color: var(--greenbay); font-weight: 300; line-height: 1.6; }
+
+    .starters { margin-top: 2.5rem; }
+    .starters h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--dracula); margin-bottom: 1rem; }
+    .starters-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .starters-list li { display: flex; gap: 0.85rem; font-size: 0.92rem; color: var(--artistic); font-weight: 300; align-items: flex-start; }
+    .starters-list li .arrow { color: var(--pagoda); font-weight: 600; flex-shrink: 0; }
+
+    /* RIGHT — who we love hearing from */
+    .contact-right h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 700; color: var(--dracula); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 2rem; }
+    .contact-right h2 em { font-style: italic; color: var(--pagoda); font-weight: 400; }
+
+    .serve-card { background: var(--paper); border: 1px solid var(--linen); border-radius: 12px; padding: 1.4rem 1.6rem; margin-bottom: 1rem; transition: border-color 0.2s, transform 0.2s; }
+    .serve-card:hover { border-color: rgba(21,132,141,0.3); transform: translateX(4px); }
+    .serve-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--dracula); margin-bottom: 0.35rem; }
+    .serve-card p { font-size: 0.88rem; color: var(--artistic); font-weight: 300; line-height: 1.65; }
+
+    /* PHOTO DIVIDER */
+    .photo-divider { height: 340px; position: relative; overflow: hidden; }
+    .photo-divider-img { position: absolute; inset: 0; background: url('hero-bg.jpg') center 40% / cover no-repeat; }
+    .photo-divider-img::after { content:''; position:absolute;inset:0; background: linear-gradient(to bottom, rgba(247,248,245,0.5) 0%, rgba(43,52,58,0.15) 50%, rgba(247,248,245,0.5) 100%); }
+
+    footer { background: var(--dracula); color: rgba(177,179,163,0.35); text-align: center; padding: 2.5rem; font-size: 0.82rem; }
+    footer a { color: var(--mirage); text-decoration: none; }
+
+    .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.75s ease, transform 0.75s ease; }
+    .fade-up.visible { opacity:1; transform:none; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">Current<span>Sight</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">Contact</p>
+      <h1>Let's talk about <em>your work</em></h1>
+      <p>Whether you have a specific project in mind or just want to explore what's possible, we're always happy to have a conversation.</p>
+    </div>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-grid">
+
+      <!-- LEFT -->
+      <div class="contact-left fade-up">
+        <p class="eyebrow">Reach out</p>
+        <h2>Get <em>in touch</em></h2>
+        <p>Email is the best way to reach Travis directly. Response time is typically within one business day.</p>
+
+        <a class="email-card" href="mailto:comforttravis@gmail.com">
+          <div class="email-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          </div>
+          <div>
+            <p class="email-label">Email</p>
+            <p class="email-addr">comforttravis@gmail.com</p>
+          </div>
+        </a>
+
+        <div class="social-note">
+          Social media links coming soon — we're setting those up and will add them here shortly.
+        </div>
+
+        <div class="starters">
+          <h3>Good conversation starters</h3>
+          <ul class="starters-list">
+            <li><span class="arrow">→</span><span>Tell us about a monitoring project you're working on</span></li>
+            <li><span class="arrow">→</span><span>Ask how our tools might integrate with your current methods</span></li>
+            <li><span class="arrow">→</span><span>Share a challenge you're having with fish population data</span></li>
+            <li><span class="arrow">→</span><span>Explore a potential partnership or pilot program</span></li>
+            <li><span class="arrow">→</span><span>Ask about grant-compatible data outputs and reporting</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="contact-right fade-up" style="transition-delay:0.1s;">
+        <p class="eyebrow">Who we work with</p>
+        <h2>We'd love to hear from you <em>if…</em></h2>
+
+        <div class="serve-card">
+          <h3>You're managing a fish passage or monitoring program</h3>
+          <p>Whether it's a fish ladder, weir, or in-stream camera setup — if you're collecting video and want smarter analysis, that's exactly what we do.</p>
+        </div>
+        <div class="serve-card">
+          <h3>You're a conservation organization or watershed group</h3>
+          <p>We're actively building partnerships with organizations working to restore and protect aquatic habitat. Early partners help shape how the tools develop.</p>
+        </div>
+        <div class="serve-card">
+          <h3>You're a state or federal agency managing fish populations</h3>
+          <p>We understand the importance of data that holds up to regulatory scrutiny, and we design our outputs with that in mind.</p>
+        </div>
+        <div class="serve-card">
+          <h3>You're a researcher who needs better population data</h3>
+          <p>Consistent, repeatable counts from video analysis can strengthen fieldwork and reduce observer variability in your datasets.</p>
+        </div>
+        <div class="serve-card">
+          <h3>You manage a hatchery or water resource facility</h3>
+          <p>If fish passage or population data plays a role in your operations, we'd like to understand how automated monitoring could help.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="photo-divider"><div class="photo-divider-img"></div></div>
+
+  <footer><p>&copy; 2025 Current Sight &nbsp;·&nbsp; <a href="mailto:comforttravis@gmail.com">comforttravis@gmail.com</a></p></footer>
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(a => { if(a.getAttribute('href')==='contact.html') a.classList.add('active'); });
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

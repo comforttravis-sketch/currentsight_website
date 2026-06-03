@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solutions — Current Sight</title>
+  <meta name="description" content="Current Sight's computer vision tools identify, track, and analyze fish populations — helping organizations collect better data with less manual effort." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --fennel:   #b1b3a3;
+      --greenbay: #7e9384;
+      --mirage:   #4b968e;
+      --pagoda:   #15848d;
+      --artistic: #596b63;
+      --dracula:  #2b343a;
+      --page:     #f7f8f5;
+      --paper:    #ffffff;
+      --warm:     #f2f4f0;
+      --linen:    #e4e7e0;
+      --ink:      #1e2428;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--page); color: var(--dracula); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 72px;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--linen);
+    }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--dracula); text-decoration: none; letter-spacing: 0.02em; }
+    .logo span { color: var(--pagoda); font-style: italic; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--greenbay); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--pagoda); }
+    .nav-cta { background: var(--pagoda) !important; color: white !important; padding: 0.52rem 1.4rem; border-radius: 4px; }
+    .nav-cta:hover { background: var(--mirage) !important; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 10rem 3.5rem 5.5rem;
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--linen);
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 100% 50%, rgba(21,132,141,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 0% 100%, rgba(75,150,142,0.05) 0%, transparent 55%);
+    }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mirage); display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .eyebrow::before { content:''; width:28px; height:1px; background:var(--pagoda); display:block; }
+    .page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5.5vw, 5rem); font-weight: 700; color: var(--dracula); letter-spacing: -0.03em; line-height: 1.05; max-width: 760px; margin-bottom: 1.4rem; }
+    .page-hero h1 em { font-style: italic; color: var(--pagoda); font-weight: 400; }
+    .page-hero p { color: var(--artistic); font-size: 1.05rem; max-width: 560px; font-weight: 300; line-height: 1.8; }
+
+    /* SHARED */
+    section { padding: 6rem 3.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 3.5vw, 3rem); font-weight: 700; color: var(--dracula); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+    h2 em { font-style: italic; color: var(--pagoda); font-weight: 400; }
+
+    .btn-solid { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--pagoda); color: white; padding: 1rem 2.4rem; border-radius: 4px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+    .btn-solid:hover { background: var(--mirage); transform: translateY(-1px); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1.5px solid var(--pagoda); color: var(--pagoda); padding: 0.95rem 2.2rem; border-radius: 4px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .btn-outline:hover { background: var(--pagoda); color: white; }
+
+    /* PHASE CARDS */
+    .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+    @media(max-width:760px) { .phase-grid { grid-template-columns: 1fr; } }
+
+    .phase-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--linen); background: var(--paper); box-shadow: 0 2px 20px rgba(43,52,58,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+    .phase-card:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(43,52,58,0.09); }
+
+    .phase-head { padding: 2rem 2rem 1.8rem; }
+    .phase-head.teal   { background: var(--pagoda); }
+    .phase-head.sage   { background: var(--artistic); }
+    .phase-head.dark   { background: var(--dracula); }
+    .phase-head h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: white; margin: 0.8rem 0 0.3rem; line-height: 1.2; }
+    .phase-head p { color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: 300; }
+
+    .status-pill { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.15); color: white; padding: 0.3rem 0.85rem; border-radius: 100px; }
+    .status-pill.live::before   { content:''; width:6px;height:6px;border-radius:50%;background:#6ee7b7; }
+    .status-pill.build::before  { content:''; width:6px;height:6px;border-radius:50%;background:#fcd34d; animation: blink 1.8s ease-in-out infinite; }
+    .status-pill.soon::before   { content:''; width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4); }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .phase-body { padding: 1.8rem 2rem 2rem; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+    .feature-list li { display: flex; gap: 0.9rem; align-items: flex-start; font-size: 0.92rem; color: var(--artistic); }
+    .feature-list li::before { content:''; flex-shrink:0; width:18px;height:18px; border-radius:50%; background: rgba(21,132,141,0.1); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpolyline points='1 4 4 7 9 1' stroke='%2315848d' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:center; margin-top:0.25rem; }
+    .feature-list li strong { color: var(--dracula); font-weight: 600; }
+
+    .stack { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* OUTCOMES */
+    .outcomes-section { background: var(--warm); border-top: 1px solid var(--linen); border-bottom: 1px solid var(--linen); }
+    .outcome-list { margin-top: 3.5rem; }
+    .outcome-item { display: grid; grid-template-columns: 72px 1fr; gap: 2.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--linen); }
+    .outcome-item:first-child { border-top: 1px solid var(--linen); }
+    .outcome-num { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 700; color: var(--linen); line-height: 1; letter-spacing: -0.03em; }
+    .outcome-item h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--dracula); margin-bottom: 0.4rem; }
+    .outcome-item p { color: var(--artistic); font-size: 0.92rem; font-weight: 300; line-height: 1.75; }
+
+    /* PHOTO DIVIDER */
+    .photo-divider { height: 380px; position: relative; overflow: hidden; }
+    .photo-divider-img { position: absolute; inset: 0; background: url('hero-bg.jpg') center 60% / cover no-repeat; }
+    .photo-divider-img::after { content:''; position:absolute;inset:0; background: linear-gradient(to bottom, rgba(247,248,245,0.5) 0%, rgba(43,52,58,0.2) 50%, rgba(247,248,245,0.5) 100%); }
+
+    /* CTA */
+    .cta-section { background: var(--pagoda); padding: 7rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content:'See'; position:absolute; font-family:'Cormorant Garamond',serif; font-size:30vw; font-weight:700; font-style:italic; color:rgba(255,255,255,0.07); top:50%;left:50%;transform:translate(-50%,-50%); pointer-events:none; white-space:nowrap; }
+    .cta-section h2 { color:white; position:relative; }
+    .cta-section p { color:rgba(255,255,255,0.65); max-width:480px; margin:1rem auto 2.8rem; font-weight:300; position:relative; }
+    .btn-white { display:inline-flex;align-items:center;gap:0.5rem; background:white;color:var(--pagoda); padding:1rem 2.6rem;border-radius:4px; font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase; text-decoration:none; transition:background 0.2s; }
+    .btn-white:hover { background:var(--page); }
+
+    footer { background: var(--dracula); color: rgba(177,179,163,0.35); text-align: center; padding: 2.5rem; font-size: 0.82rem; }
+    footer a { color: var(--mirage); text-decoration: none; }
+
+    .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.75s ease, transform 0.75s ease; }
+    .fade-up.visible { opacity:1; transform:none; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">Current<span>Sight</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">Solutions</p>
+      <h1>Tools that help you see <em>the whole picture</em></h1>
+      <p>We combine computer vision with deep knowledge of aquatic ecosystems to build monitoring tools that reduce manual effort and improve the quality of conservation data.</p>
+    </div>
+  </div>
+
+  <!-- TECHNOLOGY -->
+  <section style="background: var(--page);">
+    <div class="container">
+      <p class="eyebrow fade-up">Our technology</p>
+      <h2 class="fade-up">Where we are — and <em>where we're going</em></h2>
+      <p class="fade-up" style="color:var(--artistic); max-width:580px; font-weight:300; margin-bottom:0;">We're building a complete end-to-end monitoring system. Here's what's available now and what's coming next.</p>
+
+      <div class="phase-grid">
+        <div class="phase-card fade-up">
+          <div class="phase-head teal">
+            <span class="status-pill live">Available now</span>
+            <h3>Video Analysis Software</h3>
+            <p>Analyze existing footage from any underwater or above-water camera source.</p>
+          </div>
+          <div class="phase-body">
+            <ul class="feature-list">
+              <li><span><strong>Species identification</strong> — recognizes fish species from video footage automatically</span></li>
+              <li><span><strong>Population counting</strong> — accurate counts with far less manual review time</span></li>
+              <li><span><strong>Behavior tracking</strong> — monitor movement patterns and passage events</span></li>
+              <li><span><strong>Structured data export</strong> — clean outputs ready for your reporting workflows</span></li>
+              <li><span><strong>Works with existing cameras</strong> — no new hardware required to get started</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="phase-card fade-up" style="transition-delay:0.1s;">
+            <div class="phase-head sage">
+              <span class="status-pill build">In development</span>
+              <h3>In-Field Camera System</h3>
+              <p>A rugged, complete monitoring unit built for aquatic environments.</p>
+            </div>
+            <div class="phase-body">
+              <ul class="feature-list">
+                <li><span>Hardware designed for rivers, fish ladders, and weirs</span></li>
+                <li><span>On-device analysis — no internet required in the field</span></li>
+                <li><span>Automatic data upload when connectivity is available</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase-card fade-up" style="transition-delay:0.15s;">
+            <div class="phase-head dark">
+              <span class="status-pill soon">Coming soon</span>
+              <h3>Dashboards & Reports</h3>
+              <p>Review data, track trends, and generate shareable reports — from any device.</p>
+            </div>
+            <div class="phase-body">
+              <ul class="feature-list">
+                <li><span>Live population trend views</span></li>
+                <li><span>Export-ready reports for grants and regulators</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section class="outcomes-section">
+    <div class="container">
+      <p class="eyebrow fade-up">Why it matters</p>
+      <h2 class="fade-up">Better data means <em>better outcomes</em></h2>
+      <div class="outcome-list">
+        <div class="outcome-item fade-up">
+          <div class="outcome-num">01</div>
+          <div>
+            <h3>Reduce manual review time</h3>
+            <p>Hours of video footage that once required expert human review can be processed automatically — freeing your staff for higher-value work.</p>
+          </div>
+        </div>
+        <div class="outcome-item fade-up">
+          <div class="outcome-num">02</div>
+          <div>
+            <h3>Collect more consistent data</h3>
+            <p>Automated analysis removes observer variability, giving you reliable, repeatable counts that hold up to scrutiny from agencies and grant reviewers.</p>
+          </div>
+        </div>
+        <div class="outcome-item fade-up">
+          <div class="outcome-num">03</div>
+          <div>
+            <h3>Strengthen restoration decisions</h3>
+            <p>Population trends and passage data give managers and restoration teams the evidence they need to prioritize where and how to act.</p>
+          </div>
+        </div>
+        <div class="outcome-item fade-up">
+          <div class="outcome-num">04</div>
+          <div>
+            <h3>Support funding and reporting</h3>
+            <p>Rigorous, documented monitoring data strengthens grant applications and satisfies regulatory reporting requirements.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="photo-divider"><div class="photo-divider-img"></div></div>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="fade-up">Have a monitoring challenge we should know about?</h2>
+      <p class="fade-up">We're actively working with conservation partners. If you have a project in mind, we'd love to hear about it.</p>
+      <a href="contact.html" class="btn-white fade-up">Start a conversation →</a>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2025 Current Sight &nbsp;·&nbsp; <a href="mailto:comforttravis@gmail.com">comforttravis@gmail.com</a></p></footer>
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(a => { if(a.getAttribute('href')==='solutions.html') a.classList.add('active'); });
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
