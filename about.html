@@ -34,13 +34,45 @@
       border-bottom: 1px solid var(--linen);
     }
     .logo-img { height: 36px; width: auto; display: inline-block; vertical-align: middle; margin-right: 0.5rem; }
-    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--dracula); text-decoration: none; letter-spacing: 0.02em; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--dracula); text-decoration: none; letter-spacing: 0.02em; display: flex; align-items: center; }
     .logo span { color: var(--pagoda); font-style: italic; }
     .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
     .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--greenbay); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--pagoda); }
     .nav-cta { background: var(--pagoda) !important; color: white !important; padding: 0.52rem 1.4rem; border-radius: 4px; }
     .nav-cta:hover { background: var(--mirage) !important; }
+
+    /* MOBILE NAV TOGGLE */
+    .nav-toggle {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      width: 40px; height: 40px;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 5px;
+      flex-shrink: 0;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--dracula); transition: transform 0.25s, opacity 0.25s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media(max-width:860px) {
+      nav { padding: 0 1.25rem; }
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: fixed; top: 72px; left: 0; right: 0;
+        flex-direction: column; align-items: flex-start; gap: 0;
+        background: var(--paper); border-bottom: 1px solid var(--linen);
+        max-height: 0; overflow: hidden; opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease;
+        padding: 0 1.25rem;
+      }
+      .nav-links.open { max-height: 320px; opacity: 1; padding: 0.5rem 1.25rem 1.25rem; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 0.85rem 0; width: 100%; border-bottom: 1px solid var(--linen); }
+      .nav-links li:last-child a { border-bottom: none; }
+      .nav-cta { display: inline-block; margin-top: 0.75rem; text-align: center; }
+    }
 
     /* PAGE HERO — photo background */
     .page-hero {
@@ -138,17 +170,40 @@
 
     .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.75s ease, transform 0.75s ease; }
     .fade-up.visible { opacity:1; transform:none; }
+
+    /* ─── MOBILE ─── */
+    @media(max-width:860px) {
+      .page-hero { min-height: 45vh; padding: 6.5rem 1.25rem 3rem; }
+      .story-section { padding: 3.5rem 1.25rem; }
+      .founder-card { position: static; top: auto; margin-bottom: 0; }
+      .founder-photo-area { padding: 1.5rem; }
+      .story-body h3 { margin: 2rem 0 0.6rem; font-size: 1.3rem; }
+      .pull-quote { padding: 1.2rem 1.4rem; margin: 2rem 0; }
+      .pull-quote p { font-size: 1.05rem; }
+
+      .values-section { padding: 3.5rem 1.25rem; }
+      .values-inner h2 { margin-bottom: 2.5rem; }
+      .value-item { padding: 1.5rem; }
+
+      .cta-section { padding: 4.5rem 1.25rem; }
+      .cta-section::before { font-size: 60vw; }
+
+      footer { padding: 2rem 1.25rem; }
+    }
   </style>
 </head>
 <body>
   <nav>
     <a href="index.html" class="logo"><img src="logo-nav.png" alt="Current Sight" class="logo-img" />Current<span>Sight</span></a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="solutions.html">Solutions</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <div class="page-hero">
@@ -243,6 +298,18 @@
   <footer><p>&copy; 2025 Current Sight &nbsp;·&nbsp; <a href="mailto:comforttravis@gmail.com">comforttravis@gmail.com</a></p></footer>
   <script>
     document.querySelectorAll('.nav-links a').forEach(a => { if(a.getAttribute('href')==='about.html') a.classList.add('active'); });
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }));
     const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
   </script>
