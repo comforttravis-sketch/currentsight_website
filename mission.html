@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission — Current Sight</title>
+  <meta name="description" content="Current Sight was built on a simple idea: that one person with enough curiosity and determination could begin contributing to conservation in ways that weren't possible before." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --fennel:   #b1b3a3;
+      --greenbay: #7e9384;
+      --mirage:   #4b968e;
+      --pagoda:   #15848d;
+      --artistic: #596b63;
+      --dracula:  #2b343a;
+      --page:     #f7f8f5;
+      --paper:    #ffffff;
+      --warm:     #f2f4f0;
+      --linen:    #e4e7e0;
+      --ink:      #1e2428;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--page); color: var(--dracula); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 72px;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--linen);
+    }
+    .logo-img { height: 36px; width: auto; display: inline-block; vertical-align: middle; margin-right: 0.5rem; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--dracula); text-decoration: none; letter-spacing: 0.02em; display: flex; align-items: center; }
+    .logo span { color: var(--pagoda); font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--greenbay); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--pagoda); }
+    .nav-links a.coming-soon { opacity: 0.45; cursor: default; pointer-events: none; }
+    .nav-cta { background: var(--pagoda) !important; color: white !important; padding: 0.52rem 1.4rem; border-radius: 4px; }
+    .nav-cta:hover { background: var(--mirage) !important; color: white !important; }
+
+    /* MOBILE NAV */
+    .nav-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 40px; height: 40px; align-items: center; justify-content: center;
+      flex-direction: column; gap: 5px; flex-shrink: 0;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--dracula); transition: transform 0.25s, opacity 0.25s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      min-height: 60vh;
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end;
+      padding: 0 3.5rem 5rem;
+    }
+    .hero-photo {
+      position: absolute; inset: 0;
+      background: url('hero-bg.jpg') center 35% / cover no-repeat;
+    }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(43,52,58,0.25) 0%,
+        rgba(43,52,58,0.45) 45%,
+        rgba(30,36,40,0.88) 100%
+      );
+    }
+    .page-hero-inner { max-width: 760px; width: 100%; position: relative; z-index: 2; padding-top: 9rem; }
+    .eyebrow {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #7de8e0;
+      display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;
+    }
+    .eyebrow::before { content: ''; width: 28px; height: 1px; background: #7de8e0; display: block; }
+    .page-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 700; color: white;
+      letter-spacing: -0.03em; line-height: 1.05;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.45);
+    }
+    .page-hero p {
+      color: rgba(220,228,222,0.88); font-size: 1.05rem;
+      max-width: 500px; font-weight: 300; line-height: 1.8;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+
+    /* ─── MAIN NARRATIVE ─── */
+    .narrative {
+      background: var(--paper);
+      padding: 7rem 3.5rem;
+    }
+    .narrative-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 520px;
+      gap: 7rem;
+      align-items: start;
+    }
+
+    /* LEFT — founder card (sticky) */
+    .founder-aside { position: sticky; top: 96px; }
+    .founder-card {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--linen);
+      background: var(--warm);
+      margin-bottom: 2rem;
+    }
+    .founder-photo {
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, var(--pagoda) 0%, var(--dracula) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .founder-photo::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(75,150,142,0.2) 0%, transparent 65%);
+    }
+    .founder-photo-placeholder {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      text-align: center; padding: 2rem;
+    }
+    .founder-photo-placeholder .icon {
+      width: 56px; height: 56px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5);
+    }
+    .founder-photo-placeholder p {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+    }
+    .founder-meta {
+      padding: 1.4rem 1.6rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .founder-meta h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600; color: var(--dracula);
+    }
+    .founder-meta .role {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--mirage); margin-top: 0.15rem;
+    }
+    .founder-tag {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; background: rgba(21,132,141,0.1);
+      color: var(--pagoda); padding: 0.3rem 0.8rem; border-radius: 100px;
+    }
+
+    .aside-note {
+      background: var(--page); border: 1px solid var(--linen);
+      border-radius: 12px; padding: 1.4rem 1.6rem;
+    }
+    .aside-note p {
+      font-size: 0.88rem; color: var(--artistic); font-weight: 300; line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+    .aside-note p:last-child { margin-bottom: 0; }
+    .aside-note strong { font-weight: 600; color: var(--dracula); }
+
+    /* RIGHT — essay body */
+    .essay { }
+    .essay p {
+      font-size: 1.05rem; color: var(--artistic);
+      line-height: 1.9; font-weight: 300;
+      margin-bottom: 1.4rem;
+    }
+    .essay p.lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400;
+      color: var(--dracula); line-height: 1.65;
+      margin-bottom: 1.8rem;
+    }
+    .essay h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; color: var(--dracula);
+      margin: 3rem 0 0.8rem; letter-spacing: -0.01em;
+    }
+    .essay .spacer { margin-top: 2rem; }
+
+    /* Pull quotes */
+    .pull-quote {
+      margin: 2.5rem 0;
+      padding: 1.8rem 2rem;
+      border-left: 2px solid var(--pagoda);
+      background: rgba(21,132,141,0.04);
+      border-radius: 0 12px 12px 0;
+    }
+    .pull-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.3rem;
+      color: var(--dracula); margin: 0 !important;
+      line-height: 1.55;
+    }
+
+    /* List of what he didn't have */
+    .honest-list {
+      margin: 1.8rem 0;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .honest-list li {
+      list-style: none;
+      display: flex; gap: 0.8rem; align-items: flex-start;
+      font-size: 1rem; color: var(--artistic); font-weight: 300;
+    }
+    .honest-list li::before {
+      content: '—'; color: var(--pagoda);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem;
+    }
+
+    /* What he had list */
+    .strength-list {
+      margin: 1.8rem 0;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .strength-list li {
+      list-style: none;
+      display: flex; gap: 0.8rem; align-items: flex-start;
+      font-size: 1rem; color: var(--dracula); font-weight: 400;
+    }
+    .strength-list li::before {
+      content: '→'; color: var(--pagoda);
+      font-family: 'Jost', sans-serif;
+      font-weight: 600; flex-shrink: 0;
+    }
+
+    /* People section */
+    .people-grid {
+      margin: 2rem 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    }
+    .people-item {
+      background: var(--page); border: 1px solid var(--linen);
+      border-radius: 10px; padding: 1.1rem 1.3rem;
+    }
+    .people-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; color: var(--dracula);
+      margin-bottom: 0.2rem;
+    }
+    .people-item p {
+      font-size: 0.82rem !important; color: var(--greenbay) !important;
+      margin-bottom: 0 !important; font-weight: 400 !important;
+      line-height: 1.5 !important;
+    }
+
+    /* ─── RIVER PHOTO DIVIDER ─── */
+    .photo-divider { height: 320px; position: relative; overflow: hidden; }
+    .photo-divider-img {
+      position: absolute; inset: 0;
+      background: url('river-detail.jpg') center 40% / cover no-repeat;
+    }
+    .photo-divider-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(247,248,245,0.4) 0%,
+        rgba(43,52,58,0.1) 50%,
+        rgba(247,248,245,0.4) 100%
+      );
+    }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: var(--pagoda); padding: 7rem 3.5rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: 'Better'; position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28vw; font-weight: 700; font-style: italic;
+      color: rgba(255,255,255,0.06);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none; white-space: nowrap;
+    }
+    .cta-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; color: white;
+      letter-spacing: -0.02em; margin-bottom: 1rem; position: relative;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.65); max-width: 520px;
+      margin: 0 auto 3rem; font-weight: 300; position: relative;
+      line-height: 1.8;
+    }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: white; color: var(--pagoda);
+      padding: 1rem 2.6rem; border-radius: 4px;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s; position: relative;
+    }
+    .btn-white:hover { background: var(--page); }
+
+    footer {
+      background: var(--dracula); color: rgba(177,179,163,0.35);
+      text-align: center; padding: 2.5rem; font-size: 0.82rem;
+    }
+    footer a { color: var(--mirage); text-decoration: none; }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ─── MOBILE ─── */
+    @media(max-width:860px) {
+      nav { padding: 0 1.25rem; }
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: fixed; top: 72px; left: 0; right: 0;
+        flex-direction: column; align-items: flex-start; gap: 0;
+        background: var(--paper); border-bottom: 1px solid var(--linen);
+        max-height: 0; overflow: hidden; opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease;
+        padding: 0 1.25rem;
+      }
+      .nav-links.open { max-height: 380px; opacity: 1; padding: 0.5rem 1.25rem 1.25rem; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 0.85rem 0; width: 100%; border-bottom: 1px solid var(--linen); }
+      .nav-links li:last-child a { border-bottom: none; }
+      .nav-cta { display: inline-block; margin-top: 0.75rem; text-align: center; }
+
+      .page-hero { min-height: 55vh; padding: 6.5rem 1.25rem 3.5rem; }
+      .page-hero-inner { padding-top: 7rem; }
+
+      .narrative { padding: 3.5rem 1.25rem; }
+      .narrative-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .founder-aside { position: static; top: auto; }
+      .founder-photo { aspect-ratio: 4/3; }
+      .people-grid { grid-template-columns: 1fr; }
+
+      .photo-divider { height: 220px; }
+      .cta-section { padding: 4.5rem 1.25rem; }
+      .cta-section::before { font-size: 60vw; }
+      footer { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="logo-nav.png" alt="Current Sight" class="logo-img" />Current<span>Sight</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="mission.html">Mission</a></li>
+      <li><a href="#" class="coming-soon">Field Notes</a></li>
+      <li><a href="#" class="coming-soon">Technology</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-photo"></div>
+    <div class="page-hero-inner">
+      <p class="eyebrow">Our Mission</p>
+      <h1>Leave it better than<br>you found it.</h1>
+      <p>There are places in this world that shape who we become. For me, one of those places is California's Eel River.</p>
+    </div>
+  </div>
+
+  <!-- NARRATIVE -->
+  <section class="narrative">
+    <div class="narrative-inner">
+
+      <!-- LEFT: sticky founder card -->
+      <div class="founder-aside fade-up">
+        <div class="founder-card">
+          <div class="founder-photo">
+            <div class="founder-photo-placeholder">
+              <div class="icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              </div>
+              <p>Founder photo<br>coming soon</p>
+            </div>
+          </div>
+          <div class="founder-meta">
+            <div>
+              <h3>Travis Comfort</h3>
+              <p class="role">Founder</p>
+            </div>
+            <span class="founder-tag">Current Sight</span>
+          </div>
+        </div>
+
+        <div class="aside-note">
+          <p><strong>Current Sight</strong> is an early-stage conservation technology company developing practical computer vision tools for fisheries monitoring.</p>
+          <p>Based in California. Built on curiosity, collaboration, and continuous learning.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT: essay -->
+      <div class="essay">
+
+        <p class="lead fade-up">For generations, my family has spent summers along the banks of California's Eel River. My grandfather told stories of salmon runs so abundant they seemed almost impossible to imagine today.</p>
+
+        <p class="fade-up">As a kid, I remember catching trout with friends and believing those experiences would always be there.</p>
+
+        <p class="fade-up">Over time, the river changed.</p>
+
+        <p class="fade-up">Native salmon and steelhead populations declined. Invasive Sacramento Pike Minnow became increasingly common. Like many people who love wild places, I watched those changes happen and wondered what could be done.</p>
+
+        <p class="fade-up">For years, that question stayed just that — a question.</p>
+
+        <p class="fade-up">Then I realized something.</p>
+
+        <div class="pull-quote fade-up">
+          <p>Technology had reached a point where one person with enough curiosity and determination could begin contributing in ways that simply weren't possible before.</p>
+        </div>
+
+        <h3 class="fade-up">So I started.</h3>
+
+        <p class="fade-up">I wasn't a fisheries biologist. I wasn't a software engineer. I had never built a computer vision model or programmed an edge computer.</p>
+
+        <ul class="honest-list fade-up">
+          <li>Not a fisheries biologist</li>
+          <li>Not a software engineer</li>
+          <li>No background in computer vision or edge computing</li>
+        </ul>
+
+        <p class="fade-up">But I knew how to learn. I knew how to solve problems. I knew how to build projects that brought people together around meaningful work.</p>
+
+        <ul class="strength-list fade-up">
+          <li>How to learn</li>
+          <li>How to solve problems</li>
+          <li>How to bring people together around meaningful work</li>
+        </ul>
+
+        <p class="fade-up">Current Sight wasn't created because I believed I had all the answers. It was created because I believed that waiting for someone else to solve the problem wasn't enough.</p>
+
+        <p class="fade-up">Today, Current Sight is exploring how practical computer vision technology can support fisheries conservation — helping professionals better understand what's happening beneath the surface.</p>
+
+        <div class="pull-quote fade-up">
+          <p>Technology isn't the mission.<br>Conservation is.</p>
+        </div>
+
+        <p class="fade-up">Every image collected, every model trained, every conversation with a fisheries scientist, every day spent in the field, and every lesson learned is another step toward building tools that can make meaningful conservation work just a little easier.</p>
+
+        <h3 class="fade-up">The most valuable part hasn't been the technology.</h3>
+
+        <p class="fade-up">Along the way, I've discovered something unexpected: it's been the people.</p>
+
+        <div class="people-grid fade-up">
+          <div class="people-item">
+            <h4>Biologists</h4>
+            <p>Willing to share their experience and knowledge</p>
+          </div>
+          <div class="people-item">
+            <h4>Restoration Practitioners</h4>
+            <p>Willing to challenge ideas and push the work forward</p>
+          </div>
+          <div class="people-item">
+            <h4>Friends & Family</h4>
+            <p>Willing to spend their own time collecting data in the field</p>
+          </div>
+          <div class="people-item">
+            <h4>Conservation Partners</h4>
+            <p>Every relationship reinforcing the same lesson</p>
+          </div>
+        </div>
+
+        <div class="pull-quote fade-up">
+          <p>Conservation is a team effort. Current Sight exists to contribute to that team.</p>
+        </div>
+
+        <h3 class="fade-up">This is still the beginning.</h3>
+
+        <p class="fade-up">There is much more to learn, many more partnerships to build, and countless challenges still ahead. That's exciting. Because meaningful work is rarely finished.</p>
+
+        <p class="fade-up">If Current Sight can help conservation professionals make better decisions, improve restoration efforts, or contribute — even in a small way — to healthier rivers and stronger native fish populations, then it will be doing exactly what it was created to do.</p>
+
+        <p class="fade-up" style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--dracula); font-style: italic; margin-top: 2.5rem;">Leave it better than you found it.</p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RIVER PHOTO DIVIDER -->
+  <div class="photo-divider"><div class="photo-divider-img"></div></div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="fade-up">Want to be part of the team?</h2>
+    <p class="fade-up">Whether you're a biologist, a restoration practitioner, or someone who cares about what lives in rivers — Travis would love to hear from you.</p>
+    <a href="contact.html" class="btn-white fade-up">Start a conversation →</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Current Sight &nbsp;·&nbsp; <a href="mailto:comforttravis@gmail.com">comforttravis@gmail.com</a></p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      if (a.getAttribute('href') === 'mission.html') a.classList.add('active');
+    });
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }));
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
