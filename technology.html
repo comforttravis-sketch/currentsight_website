@@ -327,6 +327,7 @@
 
     .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
     .fade-up.visible { opacity: 1; transform: none; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
     /* ─── MOBILE ─── */
     @media(max-width:860px) {
@@ -481,10 +482,25 @@
           </div>
         </div>
       </div>
+
+      <!-- Video: model in action -->
+      <div class="fade-up" style="margin-top: 3.5rem;">
+        <p class="section-eyebrow" style="margin-bottom:1rem;">See it in action</p>
+        <div style="position:relative; border-radius:12px; overflow:hidden; background:var(--ink); border:1px solid var(--linen);">
+          <video controls playsinline loop muted preload="metadata"
+            style="width:100%; display:block; max-height:520px; object-fit:contain;">
+            <source src="pikeminnow-demo.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute; top:1rem; left:1rem; background:rgba(43,52,58,0.7); backdrop-filter:blur(8px); border-radius:4px; padding:0.3rem 0.8rem; display:flex; align-items:center; gap:0.5rem;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#7de8e0;display:inline-block;animation:blink 1.8s ease-in-out infinite;"></span>
+            <span style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.85);">Live analysis</span>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:var(--greenbay); font-weight:300; margin-top:0.75rem; text-align:center;">Sacramento Pikeminnow identification — Current Sight computer vision model</p>
+      </div>
+
     </div>
   </section>
-
-  <!-- DATA MATTERS -->
   <section class="content-section">
     <div class="content-inner">
       <div class="two-col">
